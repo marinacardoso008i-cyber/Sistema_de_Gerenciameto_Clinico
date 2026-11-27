@@ -9,8 +9,13 @@ typedef struct {
     int idade;
     char gestante;
     char lactante;
-    char necessidadeEspecial;
+    char autista;
+    char mobilidadeReduzida;
+    char criancaColo;
     char obesidade;
+    char deficiencia;
+    char doadorSangue;
+    char outraPrioridade;
     char categoria[20];
     char senha[10];
     int atendido;
@@ -26,23 +31,32 @@ int contadorUrgente = 0;
 void classificarPaciente(Paciente *p) {
 
     if (p->idade > 80) {
+
         strcpy(p->categoria, "Urgente");
         contadorUrgente++;
         sprintf(p->senha, "U%03d", contadorUrgente);
     }
+
     else if (
+        p->idade >= 50 ||
         p->gestante == 'S' ||
         p->lactante == 'S' ||
-        p->necessidadeEspecial == 'S' ||
+        p->autista == 'S' ||
+        p->mobilidadeReduzida == 'S' ||
+        p->criancaColo == 'S' ||
         p->obesidade == 'S' ||
-        (p->genero == 'F' && p->idade >= 60) ||
-        (p->genero == 'M' && p->idade >= 65)
+        p->deficiencia == 'S' ||
+        p->doadorSangue == 'S' ||
+        p->outraPrioridade == 'S'
     ) {
+
         strcpy(p->categoria, "Preferencial");
         contadorPreferencial++;
         sprintf(p->senha, "P%03d", contadorPreferencial);
     }
+
     else {
+
         strcpy(p->categoria, "Normal");
         contadorNormal++;
         sprintf(p->senha, "N%03d", contadorNormal);
@@ -69,6 +83,7 @@ void cadastrarPaciente() {
 
         if (p->genero != 'M' && p->genero != 'F' &&
             p->genero != 'm' && p->genero != 'f') {
+
             printf("Genero invalido. Digite M ou F.\n");
         }
 
@@ -101,6 +116,7 @@ void cadastrarPaciente() {
 
             if (p->gestante != 'S' && p->gestante != 'N' &&
                 p->gestante != 's' && p->gestante != 'n') {
+
                 printf("Digite apenas S ou N.\n");
             }
 
@@ -108,6 +124,7 @@ void cadastrarPaciente() {
                  p->gestante != 's' && p->gestante != 'n');
 
     } else {
+
         p->gestante = 'N';
     }
 
@@ -117,6 +134,7 @@ void cadastrarPaciente() {
 
         if (p->lactante != 'S' && p->lactante != 'N' &&
             p->lactante != 's' && p->lactante != 'n') {
+
             printf("Digite apenas S ou N.\n");
         }
 
@@ -124,20 +142,47 @@ void cadastrarPaciente() {
              p->lactante != 's' && p->lactante != 'n');
 
     do {
-        printf("Possui necessidade especial? (S/N): ");
-        scanf(" %c", &p->necessidadeEspecial);
+        printf("Possui espectro autista? (S/N): ");
+        scanf(" %c", &p->autista);
 
-        if (p->necessidadeEspecial != 'S' &&
-            p->necessidadeEspecial != 'N' &&
-            p->necessidadeEspecial != 's' &&
-            p->necessidadeEspecial != 'n') {
+        if (p->autista != 'S' && p->autista != 'N' &&
+            p->autista != 's' && p->autista != 'n') {
+
             printf("Digite apenas S ou N.\n");
         }
 
-    } while (p->necessidadeEspecial != 'S' &&
-             p->necessidadeEspecial != 'N' &&
-             p->necessidadeEspecial != 's' &&
-             p->necessidadeEspecial != 'n');
+    } while (p->autista != 'S' && p->autista != 'N' &&
+             p->autista != 's' && p->autista != 'n');
+
+    do {
+        printf("Possui mobilidade reduzida? (S/N): ");
+        scanf(" %c", &p->mobilidadeReduzida);
+
+        if (p->mobilidadeReduzida != 'S' &&
+            p->mobilidadeReduzida != 'N' &&
+            p->mobilidadeReduzida != 's' &&
+            p->mobilidadeReduzida != 'n') {
+
+            printf("Digite apenas S ou N.\n");
+        }
+
+    } while (p->mobilidadeReduzida != 'S' &&
+             p->mobilidadeReduzida != 'N' &&
+             p->mobilidadeReduzida != 's' &&
+             p->mobilidadeReduzida != 'n');
+
+    do {
+        printf("Esta com crianca de colo? (S/N): ");
+        scanf(" %c", &p->criancaColo);
+
+        if (p->criancaColo != 'S' && p->criancaColo != 'N' &&
+            p->criancaColo != 's' && p->criancaColo != 'n') {
+
+            printf("Digite apenas S ou N.\n");
+        }
+
+    } while (p->criancaColo != 'S' && p->criancaColo != 'N' &&
+             p->criancaColo != 's' && p->criancaColo != 'n');
 
     do {
         printf("Possui condicao de obesidade? (S/N): ");
@@ -145,11 +190,55 @@ void cadastrarPaciente() {
 
         if (p->obesidade != 'S' && p->obesidade != 'N' &&
             p->obesidade != 's' && p->obesidade != 'n') {
+
             printf("Digite apenas S ou N.\n");
         }
 
     } while (p->obesidade != 'S' && p->obesidade != 'N' &&
              p->obesidade != 's' && p->obesidade != 'n');
+
+    do {
+        printf("Possui alguma deficiencia? (S/N): ");
+        scanf(" %c", &p->deficiencia);
+
+        if (p->deficiencia != 'S' && p->deficiencia != 'N' &&
+            p->deficiencia != 's' && p->deficiencia != 'n') {
+
+            printf("Digite apenas S ou N.\n");
+        }
+
+    } while (p->deficiencia != 'S' && p->deficiencia != 'N' &&
+             p->deficiencia != 's' && p->deficiencia != 'n');
+
+    do {
+        printf("E doador de sangue? (S/N): ");
+        scanf(" %c", &p->doadorSangue);
+
+        if (p->doadorSangue != 'S' && p->doadorSangue != 'N' &&
+            p->doadorSangue != 's' && p->doadorSangue != 'n') {
+
+            printf("Digite apenas S ou N.\n");
+        }
+
+    } while (p->doadorSangue != 'S' && p->doadorSangue != 'N' &&
+             p->doadorSangue != 's' && p->doadorSangue != 'n');
+
+    do {
+        printf("Possui outra condicao de prioridade? (S/N): ");
+        scanf(" %c", &p->outraPrioridade);
+
+        if (p->outraPrioridade != 'S' &&
+            p->outraPrioridade != 'N' &&
+            p->outraPrioridade != 's' &&
+            p->outraPrioridade != 'n') {
+
+            printf("Digite apenas S ou N.\n");
+        }
+
+    } while (p->outraPrioridade != 'S' &&
+             p->outraPrioridade != 'N' &&
+             p->outraPrioridade != 's' &&
+             p->outraPrioridade != 'n');
 
     classificarPaciente(p);
 
@@ -170,6 +259,7 @@ int encontrarProximaSenha() {
 
         if (strcmp(pacientes[i].categoria, "Urgente") == 0 &&
             pacientes[i].atendido == 0) {
+
             return i;
         }
     }
@@ -178,6 +268,7 @@ int encontrarProximaSenha() {
 
         if (strcmp(pacientes[i].categoria, "Preferencial") == 0 &&
             pacientes[i].atendido == 0) {
+
             return i;
         }
     }
@@ -186,6 +277,7 @@ int encontrarProximaSenha() {
 
         if (strcmp(pacientes[i].categoria, "Normal") == 0 &&
             pacientes[i].atendido == 0) {
+
             return i;
         }
     }
@@ -198,9 +290,11 @@ void consultarProximaSenha() {
     int indice = encontrarProximaSenha();
 
     if (indice == -1) {
+
         printf("\nNao existem pacientes aguardando atendimento.\n");
-    }
-    else {
+
+    } else {
+
         printf("\n===== PROXIMA SENHA =====\n");
         printf("Senha: %s\n", pacientes[indice].senha);
         printf("Paciente: %s\n", pacientes[indice].nome);
@@ -213,9 +307,11 @@ void chamarPaciente() {
     int indice = encontrarProximaSenha();
 
     if (indice == -1) {
+
         printf("\nNao existem pacientes aguardando atendimento.\n");
-    }
-    else {
+
+    } else {
+
         printf("\n===== CHAMADA =====\n");
         printf("Senha: %s\n", pacientes[indice].senha);
         printf("Paciente: %s\n", pacientes[indice].nome);
@@ -262,10 +358,12 @@ void mostrarPainel() {
     int indice = encontrarProximaSenha();
 
     if (indice != -1) {
+
         printf("\nProxima senha: %s\n", pacientes[indice].senha);
         printf("Categoria: %s\n", pacientes[indice].categoria);
-    }
-    else {
+
+    } else {
+
         printf("\nNenhuma senha aguardando atendimento.\n");
     }
 
@@ -299,6 +397,7 @@ void listarPacientes() {
     printf("\n===== PACIENTES CADASTRADOS =====\n");
 
     if (totalPacientes == 0) {
+
         printf("Nenhum paciente cadastrado.\n");
         return;
     }
@@ -312,8 +411,7 @@ void listarPacientes() {
 
         if (pacientes[i].atendido == 0) {
             printf("Status: Aguardando\n");
-        }
-        else {
+        } else {
             printf("Status: Atendido\n");
         }
     }
