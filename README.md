@@ -1,272 +1,249 @@
-# 🏥 Sistema de Gerenciamento de Senhas de Atendimento Clínico
+# Sistema de Gerenciamento de Senhas de Atendimento Clínico
 
-## 📌 Sobre o projeto
+## Sobre o projeto
 
 Este projeto foi desenvolvido em linguagem C para simular um sistema de gerenciamento de senhas de atendimento em uma clínica.
 
-O sistema permite cadastrar pacientes, identificar automaticamente a categoria de atendimento, gerar uma senha sequencial e organizar a fila de acordo com as regras de prioridade propostas na atividade.
+O sistema permite cadastrar pacientes, identificar automaticamente a categoria de atendimento, gerar uma senha sequencial e organizar a fila de acordo com as regras definidas para a atividade.
 
-> **Observação:** as regras de prioridade utilizadas neste projeto são exclusivamente didáticas e foram definidas para a atividade. Elas não representam integralmente a legislação de atendimento prioritário nem uma classificação médica de risco.
+As regras de prioridade deste sistema são didáticas e foram definidas especificamente para o projeto.
 
----
+## Objetivo
 
-## 🎯 Objetivo
+O objetivo é desenvolver uma aplicação funcional em C utilizando funções, estruturas de decisão, repetição, estruturas de armazenamento, validação de dados e um menu interativo.
 
-Desenvolver uma aplicação em linguagem C capaz de:
+## Funcionalidades
 
-- Cadastrar pacientes;
-- Registrar informações do paciente;
-- Classificar automaticamente o atendimento;
-- Gerar senhas sequenciais;
-- Organizar a fila por prioridade;
-- Consultar a próxima senha;
-- Chamar pacientes;
-- Registrar pacientes como atendidos;
-- Exibir um painel com as filas;
-- Informar a quantidade de pacientes aguardando em cada categoria.
+- Cadastro de pacientes;
+- Registro dos dados do paciente;
+- Classificação automática;
+- Geração de senha sequencial;
+- Organização da fila;
+- Consulta da próxima senha;
+- Chamada de pacientes;
+- Registro de atendimento;
+- Painel de chamadas;
+- Quantidade de pacientes aguardando por categoria;
+- Listagem dos pacientes cadastrados;
+- Validação de informações digitadas.
 
----
+## Categorias
 
-## 🏷️ Categorias de atendimento
+### Urgente
 
-O sistema possui três categorias:
+A categoria urgente é utilizada para pacientes com idade superior a 80 anos.
 
-| Código | Categoria | Regra |
-|---|---|---|
-| N | Normal | Pacientes sem condição de prioridade |
-| P | Preferencial | Gestantes, lactantes, pessoas com necessidade especial, pessoas com obesidade, mulheres com 60 anos ou mais e homens com 65 anos ou mais |
-| U | Urgente | Pacientes com idade superior a 80 anos |
-
-A prioridade utilizada pelo sistema é:
+As senhas possuem o formato:
 
 ```text
-URGENTE
-   ↓
-PREFERENCIAL
-   ↓
-NORMAL
+U001
+U002
+U003
 ```
 
-A numeração é independente para cada categoria.
+### Preferencial
 
-Exemplo:
+A categoria preferencial é utilizada para pacientes que se enquadram em uma das condições abaixo:
+
+- Idade igual ou superior a 50 anos;
+- Gestante;
+- Lactante;
+- Pessoa com espectro autista;
+- Pessoa com mobilidade reduzida;
+- Pessoa acompanhada de criança de colo;
+- Pessoa com obesidade;
+- Pessoa com deficiência;
+- Doador de sangue;
+- Outra condição de prioridade informada no cadastro.
+
+As senhas possuem o formato:
+
+```text
+P001
+P002
+P003
+```
+
+### Normal
+
+A categoria normal é utilizada quando o paciente não possui nenhuma das condições de prioridade cadastradas.
+
+As senhas possuem o formato:
 
 ```text
 N001
 N002
+N003
+```
+
+## Ordem de atendimento
+
+A fila segue a seguinte prioridade:
+
+```text
+Urgente
+    ↓
+Preferencial
+    ↓
+Normal
+```
+
+Dentro de cada categoria, o sistema respeita a ordem de emissão das senhas, seguindo o conceito FIFO (First In, First Out).
+
+Exemplo:
+
+```text
 P001
 P002
-U001
-U002
+P003
 ```
 
----
-
-## ⚙️ Funcionalidades
-
-### 1. Cadastro de paciente
-
-O sistema solicita:
-
-- Nome;
-- Gênero;
-- Idade;
-- Gestante;
-- Lactante;
-- Necessidade especial;
-- Condição de obesidade.
-
-Após o cadastro, o sistema identifica a categoria e gera a senha automaticamente.
-
-### 2. Classificação
-
-O paciente é classificado automaticamente de acordo com as regras da atividade.
-
-Pacientes com idade superior a 80 anos recebem prioridade urgente.
-
-Caso não sejam urgentes, o sistema verifica as condições preferenciais.
-
-### 3. Gerenciamento da fila
-
-A fila segue:
+A ordem de chamada será:
 
 ```text
-Urgente → Preferencial → Normal
+P001 → P002 → P003
 ```
 
-Dentro de cada categoria é respeitada a ordem de cadastro (FIFO).
+Uma senha que já foi chamada não retorna para a fila.
 
-### 4. Chamada
+## Menu do sistema
 
-O sistema permite chamar a próxima senha disponível.
-
-Após a chamada, o paciente é marcado como atendido e não retorna para a fila.
-
-### 5. Painel
-
-O painel apresenta:
-
-- Próxima senha;
-- Categoria;
-- Próximas senhas;
-- Quantidade de pacientes aguardando por categoria.
-
-### 6. Listagem
-
-Também é possível visualizar todos os pacientes cadastrados e verificar se estão aguardando ou já foram atendidos.
-
----
-
-## 🧩 Funções implementadas
-
-### `classificarPaciente()`
-
-Identifica a categoria do paciente e gera sua senha.
-
-### `cadastrarPaciente()`
-
-Realiza o cadastro e valida os dados informados.
-
-### `encontrarProximaSenha()`
-
-Procura a próxima senha que deve ser atendida de acordo com a prioridade.
-
-### `consultarProximaSenha()`
-
-Mostra qual será a próxima senha chamada.
-
-### `chamarPaciente()`
-
-Realiza a chamada do próximo paciente e registra o atendimento.
-
-### `mostrarPainel()`
-
-Exibe o painel da clínica e a quantidade de pacientes aguardando.
-
-### `listarPacientes()`
-
-Mostra os pacientes cadastrados e seus respectivos status.
-
-### `menu()`
-
-Apresenta o menu principal e controla as opções escolhidas pelo usuário.
-
----
-
-## 💻 Como compilar
-
-O programa pode ser compilado utilizando o GCC.
-
-No terminal, dentro da pasta do projeto:
-
-```bash
-gcc main.c -o sistema_clinica
-```
-
----
-
-## ▶️ Como executar
-
-### Windows
-
-```bash
-sistema_clinica.exe
-```
-
-### Linux
-
-```bash
-./sistema_clinica
-```
-
----
-
-## 🖥️ Exemplo de utilização
-
-Ao executar o programa, será apresentado:
+O sistema possui as seguintes opções:
 
 ```text
-=====================================
- SISTEMA DE SENHAS - CLINICA
-=====================================
 1 - Cadastrar paciente
 2 - Consultar proxima senha
 3 - Chamar paciente
 4 - Mostrar painel
 5 - Listar pacientes
 0 - Sair
-
-Escolha uma opcao:
 ```
 
-Após cadastrar um paciente:
+## Funções implementadas
+
+### `classificarPaciente()`
+
+Verifica as condições do paciente, define sua categoria e gera a senha.
+
+### `cadastrarPaciente()`
+
+Recebe os dados do paciente e realiza as validações necessárias.
+
+### `encontrarProximaSenha()`
+
+Procura a próxima senha de acordo com a prioridade e a ordem de cadastro.
+
+### `consultarProximaSenha()`
+
+Apresenta a próxima senha que será chamada.
+
+### `chamarPaciente()`
+
+Realiza a chamada do paciente e registra que ele foi atendido.
+
+### `mostrarPainel()`
+
+Exibe as informações da fila, a próxima senha e a quantidade de pacientes aguardando em cada categoria.
+
+### `listarPacientes()`
+
+Apresenta os pacientes cadastrados, suas senhas, categorias e situação do atendimento.
+
+### `menu()`
+
+Controla o menu principal e direciona cada opção para sua respectiva função.
+
+## Estrutura de armazenamento
+
+O sistema utiliza uma `struct` chamada `Paciente` para armazenar as informações de cada pessoa.
+
+Também é utilizado um vetor com capacidade para até 100 pacientes:
+
+```c
+Paciente pacientes[MAX_PACIENTES];
+```
+
+## Compilação
+
+O programa pode ser compilado utilizando o GCC.
+
+No terminal:
+
+```bash
+gcc main.c -o sistema_clinica
+```
+
+## Execução
+
+No Windows:
+
+```bash
+sistema_clinica.exe
+```
+
+No Linux:
+
+```bash
+./sistema_clinica
+```
+
+O programa também pode ser executado em ambientes online que possuam suporte à linguagem C, como o GDB Online.
+
+## Exemplo de geração de senha
+
+Ao cadastrar uma pessoa de 55 anos:
 
 ```text
-===== CADASTRO DE PACIENTE =====
-
-Nome: Maria
-Genero (M/F): F
-Idade: 25
-E gestante? (S/N): S
-E lactante? (S/N): N
-Possui necessidade especial? (S/N): N
-Possui condicao de obesidade? (S/N): N
-
 Paciente cadastrado com sucesso!
 Categoria: Preferencial
 Senha: P001
 ```
 
-Outro paciente com mais de 80 anos:
+Ao cadastrar uma pessoa de 85 anos:
 
 ```text
-Nome: João
-Genero (M/F): M
-Idade: 85
-E lactante? (S/N): N
-Possui necessidade especial? (S/N): N
-Possui condicao de obesidade? (S/N): N
-
 Paciente cadastrado com sucesso!
 Categoria: Urgente
 Senha: U001
 ```
 
-Nesse caso, a próxima senha será:
+Ao cadastrar uma pessoa de 30 anos sem nenhuma condição de prioridade:
+
+```text
+Paciente cadastrado com sucesso!
+Categoria: Normal
+Senha: N001
+```
+
+## Exemplo de chamada
+
+Considerando que as senhas estejam aguardando:
+
+```text
+N001 - Normal
+P001 - Preferencial
+U001 - Urgente
+```
+
+A ordem de chamada será:
 
 ```text
 U001
+P001
+N001
 ```
 
-pois a categoria urgente possui prioridade sobre a preferencial.
+Isso ocorre porque a categoria urgente possui prioridade sobre a preferencial, e a preferencial possui prioridade sobre a normal.
 
----
+## Tecnologias utilizadas
 
-## 📚 Conceitos utilizados
+- Linguagem C;
+- GCC;
+- GDB Online;
+- GitHub.
 
-Neste projeto foram utilizados conceitos estudados em linguagem C, como:
+## Autora
 
-- Variáveis;
-- Tipos de dados;
-- `struct`;
-- Vetores;
-- Funções;
-- Parâmetros;
-- Ponteiros;
-- `if/else`;
-- `switch`;
-- `for`;
-- `do...while`;
-- `strcmp()`;
-- `strcpy()`;
-- `sprintf()`;
-- Validação de entrada;
-- Organização de filas.
+Marina Alves
 
----
-
-## 👩‍💻 Autora
-
-**Marina Alves**
-
-Aluna de Análise e Desenvolvimento de Sistemas - 2° Semestre
+Aluna de Análise e Desenvolvimento de Sistemas - 2° Semestre - UDF
